@@ -22,6 +22,7 @@ private:
 
 protected:
     void paintEvent(QPaintEvent *e);
+
 private slots:
     void on_pushButton_clicked();
 };

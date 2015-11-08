@@ -2,6 +2,8 @@
 #define DIALOG_H
 
 #include <QDialog>
+#include "poligonos.h"
+#include "arcos.h"
 
 namespace Ui {
 class Dialog;
@@ -18,8 +20,12 @@ public:
 private slots:
     void on_pushButton_clicked();
 
+    void on_pushButton_2_clicked();
+
 private:
     Ui::Dialog *ui;
+    //permite multiples ventanas de poligonos
+    //Poligonos *poligonos;
 
 };
 

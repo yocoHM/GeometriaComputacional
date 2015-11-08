@@ -1,5 +1,6 @@
 #include "poligonos.h"
 #include "ui_poligonos.h"
+#include <QMessageBox>
 #include <math.h>
 
 bool dibuja = false;
@@ -32,14 +33,7 @@ void Poligonos::paintEvent(QPaintEvent *e)
             QPen pointPen(Qt::black);
             pointPen.setWidth(2);
 
-            /*
-            QPoint p1;
-            p1.setX(x1.toInt());
-            p1.setY(y1.toInt());
-            */
-
             painter.setPen(pointPen);
-            //painter.drawLine(p1,p2);
 
             int lados = ladosStr.toInt();
 
@@ -64,9 +58,11 @@ void Poligonos::paintEvent(QPaintEvent *e)
 
             }
 
-            //painter.drawPoint(p1);
-            //painter.drawPoint(p2);
         }
+        //corregir bug de dos ventanas de alerta
+        //else {
+            //QMessageBox::warning(this, tr("Alerta"), tr("Todos los campos de texto deben estar llenos para dibujar un polígono"));
+        //}
 
     }
 
