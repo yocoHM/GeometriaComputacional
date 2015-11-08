@@ -13,8 +13,11 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        dialog.cpp
+        dialog.cpp \
+    poligonos.cpp
 
-HEADERS  += dialog.h
+HEADERS  += dialog.h \
+    poligonos.h
 
-FORMS    += dialog.ui
+FORMS    += dialog.ui \
+    poligonos.ui
