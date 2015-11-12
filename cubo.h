@@ -1,21 +1,21 @@
-#ifndef ARCOS_H
-#define ARCOS_H
+#ifndef CUBO_H
+#define CUBO_H
 
 #include <QDialog>
 #include <QtGui>
 #include <QtCore>
 
 namespace Ui {
-class Arcos;
+class Cubo;
 }
 
-class Arcos : public QDialog
+class Cubo : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit Arcos(QWidget *parent = 0);
-    ~Arcos();
+    explicit Cubo(QWidget *parent = 0);
+    ~Cubo();
 
 protected:
     void paintEvent(QPaintEvent *e);
@@ -26,8 +26,7 @@ private slots:
     void on_pushButton_2_clicked();
 
 private:
-    Ui::Arcos *ui;
-
+    Ui::Cubo *ui;
 };
 
-#endif // ARCOS_H
+#endif // CUBO_H

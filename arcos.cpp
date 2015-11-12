@@ -6,11 +6,15 @@
 #define PI 3.14159265
 
 bool dibujaArco = false;
+//centro de la ventana
+double xCentroArco = 450.0;
+double yCentroArco = 300.0;
 
 Arcos::Arcos(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Arcos)
 {
+    this->setFixedSize(900,600);
     ui->setupUi(this);
 }
 
@@ -40,30 +44,28 @@ void Arcos::paintEvent(QPaintEvent *e)
             int y = radioStr.toInt();
             double p = 5.0/4.0-y;
 
-            //centro de la ventana
-            int maxx = 275;
-            int maxy = 225;
 
+            //---MidPointCircle---
             int oct = (angulo - (angulo % 45)) / 45;
             double limit1 = tan((90.0 - (angulo % 90)) * PI / 180.0) * x;
             double limit2 = tan((45.0 + (angulo % 45)) * PI / 180.0) * x;
 
             if (oct > 0 || (oct == 0 && y > limit1))
-                painter.drawPoint(maxx+x,maxy-y);
+                painter.drawPoint(xCentroArco+x,yCentroArco-y);
             if (oct > 1 || (oct == 1 && y <= limit2))
-                painter.drawPoint(maxx+y,maxy-x);
+                painter.drawPoint(xCentroArco+y,yCentroArco-x);
             if (oct > 2 || (oct == 2 && y > limit1))
-                painter.drawPoint(maxx+y,maxy+x);
+                painter.drawPoint(xCentroArco+y,yCentroArco+x);
             if (oct > 3 || (oct == 3 && y <= limit2))
-                painter.drawPoint(maxx+x,maxy+y);
+                painter.drawPoint(xCentroArco+x,yCentroArco+y);
             if (oct > 4 || (oct == 4 && y > limit1))
-                painter.drawPoint(maxx-x,maxy+y);
+                painter.drawPoint(xCentroArco-x,yCentroArco+y);
             if (oct > 5 || (oct == 5 && y <= limit2))
-                painter.drawPoint(maxx-y,maxy+x);
+                painter.drawPoint(xCentroArco-y,yCentroArco+x);
             if (oct > 6 || (oct == 6 && y > limit1))
-                painter.drawPoint(maxx-y,maxy-x);
+                painter.drawPoint(xCentroArco-y,yCentroArco-x);
             if (oct > 7 || (oct == 7 && y <= limit2))
-                painter.drawPoint(maxx-x,maxy-y);
+                painter.drawPoint(xCentroArco-x,yCentroArco-y);
 
             while(y > x)
             {
@@ -76,31 +78,29 @@ void Arcos::paintEvent(QPaintEvent *e)
 
                 x++;
 
-                //---MidPointCircle---
-                //centro de la ventana
-                int maxx = 275;
-                int maxy = 225;
 
+                //---MidPointCircle---
                 int oct = (angulo - (angulo % 45)) / 45;
                 double limit1 = tan((90.0 - (angulo % 90)) * PI / 180.0) * x;
                 double limit2 = tan((45.0 + (angulo % 45)) * PI / 180.0) * x;
 
                 if (oct > 0 || (oct == 0 && y > limit1))
-                    painter.drawPoint(maxx+x,maxy-y);
+                    painter.drawPoint(xCentroArco+x,yCentroArco-y);
                 if (oct > 1 || (oct == 1 && y <= limit2))
-                    painter.drawPoint(maxx+y,maxy-x);
+                    painter.drawPoint(xCentroArco+y,yCentroArco-x);
                 if (oct > 2 || (oct == 2 && y > limit1))
-                    painter.drawPoint(maxx+y,maxy+x);
+                    painter.drawPoint(xCentroArco+y,yCentroArco+x);
                 if (oct > 3 || (oct == 3 && y <= limit2))
-                    painter.drawPoint(maxx+x,maxy+y);
+                    painter.drawPoint(xCentroArco+x,yCentroArco+y);
                 if (oct > 4 || (oct == 4 && y > limit1))
-                    painter.drawPoint(maxx-x,maxy+y);
+                    painter.drawPoint(xCentroArco-x,yCentroArco+y);
                 if (oct > 5 || (oct == 5 && y <= limit2))
-                    painter.drawPoint(maxx-y,maxy+x);
+                    painter.drawPoint(xCentroArco-y,yCentroArco+x);
                 if (oct > 6 || (oct == 6 && y > limit1))
-                    painter.drawPoint(maxx-y,maxy-x);
+                    painter.drawPoint(xCentroArco-y,yCentroArco-x);
                 if (oct > 7 || (oct == 7 && y <= limit2))
-                    painter.drawPoint(maxx-x,maxy-y);
+                    painter.drawPoint(xCentroArco-x,yCentroArco-y);
+
             }
 
 
@@ -120,4 +120,18 @@ void Arcos::on_pushButton_clicked()
 {
     dibujaArco = !dibujaArco;
     update();
+}
+
+void Arcos::on_pushButton_2_clicked()
+{
+    QString xStr = ui->boxXinicio->toPlainText();
+    QString yStr = ui->boxYinicio->toPlainText();
+
+    xCentroArco = xStr.toDouble();
+    yCentroArco = yStr.toDouble();
+
+    if (!xStr.isEmpty() && !yStr.isEmpty()) {
+        dibujaArco = !dibujaArco;
+        update();
+    }
 }

@@ -31,3 +31,35 @@ void Dialog::on_pushButton_2_clicked()
     arcos.setModal(true);
     arcos.exec();
 }
+
+void Dialog::on_pushButton_3_clicked()
+{
+    //permite una sola ventana de cubo
+    Cubo cubo;
+    cubo.setModal(true);
+    cubo.exec();
+}
+
+void Dialog::on_pushButton_4_clicked()
+{
+    //permite una sola ventana de prismaRectangular
+    PrismaRec prismaRectangular;
+    prismaRectangular.setModal(true);
+    prismaRectangular.exec();
+}
+
+void Dialog::on_pushButton_5_clicked()
+{
+    //permite una sola ventana de prismaTriangular
+    PrismaTri prismaTriangular;
+    prismaTriangular.setModal(true);
+    prismaTriangular.exec();
+}
+
+void Dialog::on_pushButton_6_clicked()
+{
+    //permite una sola ventana de cono
+    Cono cono;
+    cono.setModal(true);
+    cono.exec();
+}

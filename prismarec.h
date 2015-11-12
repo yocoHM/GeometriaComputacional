@@ -1,21 +1,21 @@
-#ifndef ARCOS_H
-#define ARCOS_H
+#ifndef PRISMAREC_H
+#define PRISMAREC_H
 
 #include <QDialog>
 #include <QtGui>
 #include <QtCore>
 
 namespace Ui {
-class Arcos;
+class PrismaRec;
 }
 
-class Arcos : public QDialog
+class PrismaRec : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit Arcos(QWidget *parent = 0);
-    ~Arcos();
+    explicit PrismaRec(QWidget *parent = 0);
+    ~PrismaRec();
 
 protected:
     void paintEvent(QPaintEvent *e);
@@ -26,8 +26,7 @@ private slots:
     void on_pushButton_2_clicked();
 
 private:
-    Ui::Arcos *ui;
-
+    Ui::PrismaRec *ui;
 };
 
-#endif // ARCOS_H
+#endif // PRISMAREC_H

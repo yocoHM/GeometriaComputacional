@@ -4,11 +4,15 @@
 #include <math.h>
 
 bool dibuja = false;
+double xCentro = 450.0;
+double yCentro = 300.0;
+//qreal grados = 45.0;
 
 Poligonos::Poligonos(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Poligonos)
 {
+    this->setFixedSize(900,600);
     ui->setupUi(this);
 }
 
@@ -21,14 +25,14 @@ Poligonos::~Poligonos()
 void Poligonos::paintEvent(QPaintEvent *e)
 {
     QPainter painter(this);
+    //painter.translate(150,-60);
+    //painter.rotate(grados);
 
     if (dibuja) {
 
-        QString xStr = ui->boxXinicio->toPlainText();
-        QString yStr = ui->boxYinicio->toPlainText();
         QString ladosStr = ui->boxXfin->toPlainText();
 
-        if (!xStr.isEmpty() && !yStr.isEmpty() && !ladosStr.isEmpty()) {
+        if (!ladosStr.isEmpty()) {
 
             QPen pointPen(Qt::black);
             pointPen.setWidth(2);
@@ -39,8 +43,6 @@ void Poligonos::paintEvent(QPaintEvent *e)
 
             double radio = 100;
             double angulo = (double)360.0/(double)lados;
-            double xCentro = xStr.toInt();
-            double yCentro = yStr.toInt();
 
             int xi,yi,xf,yf;
             double val = M_PI / 180;
@@ -75,4 +77,19 @@ void Poligonos::on_pushButton_clicked()
 {
     dibuja = !dibuja;
     update();
+}
+
+void Poligonos::on_pushButton_2_clicked()
+{
+    QString xStr = ui->boxXinicio->toPlainText();
+    QString yStr = ui->boxYinicio->toPlainText();
+
+    xCentro = xStr.toDouble();
+    yCentro = yStr.toDouble();
+
+    if (!xStr.isEmpty() && !yStr.isEmpty()) {
+        dibuja = !dibuja;
+        update();
+    }
+
 }

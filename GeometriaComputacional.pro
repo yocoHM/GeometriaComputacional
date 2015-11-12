@@ -15,12 +15,24 @@ TEMPLATE = app
 SOURCES += main.cpp\
         dialog.cpp \
     poligonos.cpp \
-    arcos.cpp
+    arcos.cpp \
+    cubo.cpp \
+    prismarec.cpp \
+    prismatri.cpp \
+    cono.cpp
 
 HEADERS  += dialog.h \
     poligonos.h \
-    arcos.h
+    arcos.h \
+    cubo.h \
+    prismarec.h \
+    prismatri.h \
+    cono.h
 
 FORMS    += dialog.ui \
     poligonos.ui \
-    arcos.ui
+    arcos.ui \
+    cubo.ui \
+    prismarec.ui \
+    prismatri.ui \
+    cono.ui

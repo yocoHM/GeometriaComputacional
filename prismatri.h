@@ -1,21 +1,21 @@
-#ifndef ARCOS_H
-#define ARCOS_H
+#ifndef PRISMATRI_H
+#define PRISMATRI_H
 
 #include <QDialog>
 #include <QtGui>
 #include <QtCore>
 
 namespace Ui {
-class Arcos;
+class PrismaTri;
 }
 
-class Arcos : public QDialog
+class PrismaTri : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit Arcos(QWidget *parent = 0);
-    ~Arcos();
+    explicit PrismaTri(QWidget *parent = 0);
+    ~PrismaTri();
 
 protected:
     void paintEvent(QPaintEvent *e);
@@ -26,8 +26,7 @@ private slots:
     void on_pushButton_2_clicked();
 
 private:
-    Ui::Arcos *ui;
-
+    Ui::PrismaTri *ui;
 };
 
-#endif // ARCOS_H
+#endif // PRISMATRI_H
