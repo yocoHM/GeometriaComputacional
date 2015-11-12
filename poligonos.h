@@ -19,6 +19,12 @@ public:
 
 private:
     Ui::Poligonos *ui;
+    bool dibuja = false;
+
+    double xCentro;
+    double yCentro;
+
+    QVector<QTransform> transforms;
 
 protected:
     void paintEvent(QPaintEvent *e);
@@ -26,6 +32,11 @@ protected:
 private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
+    void on_pushButton_3_clicked();
+    void on_pushButton_4_clicked();
+    void on_pushButton_5_clicked();
+    void on_pushButton_6_clicked();
+    void on_pushButton_7_clicked();
 };
 
 #endif // POLIGONOS_H

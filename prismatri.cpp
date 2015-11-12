@@ -2,16 +2,17 @@
 #include "ui_prismatri.h"
 #include <math.h>
 
-bool dibujaPrismaTri = false;
-double xCentroPrismaTri = 450.0;
-double yCentroPrismaTri = 300.0;
-
 PrismaTri::PrismaTri(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PrismaTri)
 {
     this->setFixedSize(900,600);
     ui->setupUi(this);
+    xCentro = 450.0;
+    yCentro = 300.0;
+    QTransform center;
+    center.translate(xCentro,yCentro);
+    transforms.push_back(center);
 }
 
 PrismaTri::~PrismaTri()
@@ -19,63 +20,57 @@ PrismaTri::~PrismaTri()
     delete ui;
 }
 
+void dibujarPrismaTri(QPainter & painter){
+    int x1 = 0;
+    int y1 = -50;
+    int x2 = -25;
+    int y2 = -70;
+    int x3 = 25;
+    int y3 = -70;
+    int _x1 = 0;
+    int _y1 = -50+50;
+    int _x2 = -25;
+    int _y2 = -70+50;
+    int _x3 = 25;
+    int _y3 = -70+50;
+
+    painter.drawLine(x1,y1,x2,y2);
+    painter.drawLine(x1,y1,x3,y3);
+    painter.drawLine(x2,y2,x3,y3);
+    painter.drawLine(_x1,_y1,_x2,_y2);
+    painter.drawLine(_x1,_y1,_x3,_y3);
+    painter.drawLine(_x2,_y2,_x3,_y3);
+    painter.drawLine(x1,y1,_x1,_y1);
+    painter.drawLine(x2,y2,_x2,_y2);
+    painter.drawLine(_x3,_y3,x3,y3);
+}
+
 void PrismaTri::paintEvent(QPaintEvent *e)
 {
     QPainter painter(this);
+    QPen pointPen(Qt::black);
+    pointPen.setWidth(2);
+    painter.setPen(pointPen);
 
-    if (dibujaPrismaTri) {
 
-        int base = 25;
-        int altura = 22;
+    if(dibuja)
+    {
+        for(int i=0; i<transforms.size(); ++i)
+        {
+            painter.setTransform(transforms[i],true);
+            dibujarPrismaTri(painter);
 
-        int baseX1 = xCentroPrismaTri - base;
-        int baseX2 = xCentroPrismaTri + base;
-        int alturaY1 = yCentroPrismaTri - altura;
-        int alturaY2 = yCentroPrismaTri + altura;
-
-        //Puntos Base
-        int x0 = baseX1;
-        int y0 = alturaY1;
-        int x1 = baseX2;
-        int y1 = alturaY1;
-        int x2 = xCentroPrismaTri;
-        int y2 = alturaY2;
-
-        int inc = 100;
-
-        //Puntos Tapa
-        int x3 = x0;
-        int y3 = y0 - inc;
-        int x4 = x1;
-        int y4 = y1 - inc;
-        int x5 = x2;
-        int y5 = y2 - inc;
-
-        QPen pointPen(Qt::black);
-        pointPen.setWidth(2);
-        painter.setPen(pointPen);
-
-        painter.drawLine(x0,y0,x1,y1);
-        painter.drawLine(x0,y0,x2,y2);
-        painter.drawLine(x1,y1,x2,y2);
-
-        painter.drawLine(x3,y3,x4,y4);
-        painter.drawLine(x3,y3,x5,y5);
-        painter.drawLine(x4,y4,x5,y5);
-
-        painter.drawLine(x3,y3,x0,y0);
-        painter.drawLine(x4,y4,x1,y1);
-        painter.drawLine(x5,y5,x2,y2);
-
+        }
     }
-
-    dibujaPrismaTri = false;
-
 }
 
 void PrismaTri::on_pushButton_clicked()
 {
-    dibujaPrismaTri = !dibujaPrismaTri;
+    dibuja=!dibuja;
+    transforms.clear();
+    QTransform center;
+    center.translate(xCentro,yCentro);
+    transforms.push_back(center);
     update();
 }
 
@@ -84,11 +79,55 @@ void PrismaTri::on_pushButton_2_clicked()
     QString xStr = ui->boxXinicio->toPlainText();
     QString yStr = ui->boxYinicio->toPlainText();
 
-    xCentroPrismaTri = xStr.toDouble();
-    yCentroPrismaTri = yStr.toDouble();
-
     if (!xStr.isEmpty() && !yStr.isEmpty()) {
-        dibujaPrismaTri = !dibujaPrismaTri;
-        update();
+        double x = xStr.toDouble();
+        double y = yStr.toDouble();
+        QTransform translate;
+        translate.translate(x, y);
+        transforms.push_back(translate);
+
     }
+
+    update();
+}
+
+void PrismaTri::on_pushButton_3_clicked()
+{
+    QTransform rotate;
+    rotate.rotate(30);
+    transforms.push_back(rotate);
+    update();
+}
+
+void PrismaTri::on_pushButton_4_clicked()
+{
+    QTransform zoomOut;
+    zoomOut.scale(0.5,0.5);
+    transforms.push_back(zoomOut);
+
+    update();
+}
+
+void PrismaTri::on_pushButton_5_clicked()
+{
+    QTransform zoomIn;
+    zoomIn.scale(2,2);
+    transforms.push_back(zoomIn);
+    update();
+}
+
+void PrismaTri::on_pushButton_6_clicked()
+{
+    QTransform zoomIn;
+    zoomIn.scale(-1,1);
+    transforms.push_back(zoomIn);
+    update();
+}
+
+void PrismaTri::on_pushButton_7_clicked()
+{
+    QTransform zoomIn;
+    zoomIn.scale(1,-1);
+    transforms.push_back(zoomIn);
+    update();
 }
