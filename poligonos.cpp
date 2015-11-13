@@ -11,9 +11,9 @@ Poligonos::Poligonos(QWidget *parent) :
     ui->setupUi(this);
     xCentro = 450.0;
     yCentro = 300.0;
-    QTransform center;
-    center.translate(xCentro,yCentro);
-    transforms.push_back(center);
+    QTransform centro;
+    centro.translate(xCentro,yCentro);
+    vecTrans.push_back(centro);
 
 }
 
@@ -27,13 +27,12 @@ void dibujarPoligono(int lados, QPainter & painter) {
     double radio = 100;
     double angulo = (double)360.0/(double)lados;
 
-
     int xi,yi,xf,yf;
     double val = M_PI / 180;
     angulo *= val;
     int a = 0;
 
-    for(a=1; a<=lados; a++) {
+    for(a = 1; a <= lados; a++) {
         xi = (radio * cos(angulo*a));
         yi = (radio * sin(angulo*a));
 
@@ -41,10 +40,9 @@ void dibujarPoligono(int lados, QPainter & painter) {
         yf = (radio * sin(angulo*(a+1)));
 
         painter.drawLine(xi, yi, xf, yf);
-    }
+    }//cierre del for
 
-}
-
+}//cierre de dibujarPoligono
 
 void Poligonos::paintEvent(QPaintEvent *e)
 {
@@ -61,85 +59,74 @@ void Poligonos::paintEvent(QPaintEvent *e)
 
             int lados = ladosStr.toInt();
 
-            for(int i=0; i<transforms.size(); ++i) {
-                painter.setTransform(transforms[i],true);
+            for(int i=0; i<vecTrans.size(); ++i) {
+                painter.setTransform(vecTrans[i],true);
                 dibujarPoligono(lados, painter);
+            }//cierre del for
 
-            }
+        }//cierre del if para checar ladosStr
 
-        }
+    }//cierre del if para checar dibuja
 
-    }
-
-}
-
+}//cierre de painEvent
 
 void Poligonos::on_pushButton_clicked()
 {
-    dibuja=!dibuja;
-    transforms.clear();
-    QTransform center;
-    center.translate(xCentro,yCentro);
-    transforms.push_back(center);
+    trans.dibujar(dibuja,vecTrans,xCentro,yCentro);
+
     update();
 
-}
+}//cierre del boton dibujar
 
 void Poligonos::on_pushButton_2_clicked()
 {
     QString xStr = ui->boxXinicio->toPlainText();
     QString yStr = ui->boxYinicio->toPlainText();
 
-    if(!xStr.isEmpty() && !yStr.isEmpty())
-    {
-        int x = xStr.toDouble();
-        int y = yStr.toDouble();
-        QTransform translate;
-        translate.translate(x, y);
-        transforms.push_back(translate);
-    }
+    trans.trasladar(xStr, yStr, vecTrans);
 
     update();
 
-}
+}//cierre del boton de trasladar
 
 void Poligonos::on_pushButton_3_clicked()
 {
-    QTransform rotate;
-    rotate.rotate(30);
-    transforms.push_back(rotate);
+    QString gradosStr = ui->boxGrados->toPlainText();
+
+    trans.rotar(gradosStr, vecTrans);
+
     update();
-}
+
+}//cierre del boton de rotar
 
 void Poligonos::on_pushButton_4_clicked()
 {
-    QTransform zoomOut;
-    zoomOut.scale(0.5,0.5);
-    transforms.push_back(zoomOut);
+    trans.zoomOut(vecTrans);
 
     update();
-}
+
+}//cierre del boton de zoom out
 
 void Poligonos::on_pushButton_5_clicked()
 {
-    QTransform zoomIn;
-    zoomIn.scale(2,2);
-    transforms.push_back(zoomIn);
+    trans.zoomIn(vecTrans);
+
     update();
-}
+
+}//cierre del boton de zoom in
 
 void Poligonos::on_pushButton_6_clicked()
 {
-    QTransform zoomIn;
-    zoomIn.scale(-1,1);
-    transforms.push_back(zoomIn);
+    trans.reflexHorizontal(vecTrans);
+
     update();
-}
+
+}//cierre del boton de reflexion horizontal
 
 void Poligonos::on_pushButton_7_clicked()
 {
-    QTransform zoomIn;
-    zoomIn.scale(1,-1);
-    transforms.push_back(zoomIn);
+    trans.reflexVertical(vecTrans);
+
     update();
-}
+
+}//cierre del boton de reflexion vertical

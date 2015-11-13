@@ -12,7 +12,7 @@ Cono::Cono(QWidget *parent) :
     yCentro = 300.0;
     QTransform center;
     center.translate(xCentro,yCentro);
-    transforms.push_back(center);
+    vecTrans.push_back(center);
 }
 
 Cono::~Cono()
@@ -20,15 +20,20 @@ Cono::~Cono()
     delete ui;
 }
 
-void dibujarCono(QPainter & painter){
+void ellipsePoints(double & centroX, double & centroY, int & x, int & y, int & i, QPainter & painter) {
 
-    double centroX = 0.0;
-    double centroY = 0.0;
+    painter.drawPoint(centroX+x,centroY+y);
 
-    int a = 50;
-    int b = 20;
+    i+=2;
 
-    /*midPointEllipse */
+    painter.drawPoint(centroX-x,centroY+y);
+    painter.drawPoint(centroX+x,centroY-y);
+    painter.drawPoint(centroX-x,centroY-y);
+
+}//cierre de ellipsePoints
+
+void midPointEllipse(int & a, int & b, double & centroX, double & centroY, QPainter & painter) {
+
     int i = 0;
     double d2;
     int x=0;
@@ -39,29 +44,24 @@ void dibujarCono(QPainter & painter){
     painter.drawPoint(x,y);
 
     while((a*a*(y-0.5))>(b*b*(x+1))) {
-        if(dl<0)
+
+        if(dl<0) {
             dl+=b*b*(2*x+3);
+        }
         else {
             dl+=b*b*(2*x+3)+a*a*(-2*y+2);
             y--;
         }
         x++;
 
-        /*ellipsePoints*/
-        painter.drawPoint(centroX+x,centroY+y);
+        ellipsePoints(centroX, centroY, x, y, i, painter);
 
-        i+=2;
-
-        painter.drawPoint(centroX-x,centroY+y);
-        painter.drawPoint(centroX+x,centroY-y);
-        painter.drawPoint(centroX-x,centroY-y);
-        /*ellipsePoints*/
-
-    }
+    }//cierre del while
 
     d2=b*b*(x+0.5)*(x+0.5)+a*a*(y-1)*(y-1)-a*a*b*b;
 
     while(y>0) {
+
         if(d2<0) {
             d2+=b*b*(2*x+2)+a*a*(-2*y+3);
             x++;
@@ -71,19 +71,21 @@ void dibujarCono(QPainter & painter){
         }
         y--;
 
-        /*ellipsePoints*/
+        ellipsePoints(centroX, centroY, x, y, i, painter);
 
-        painter.drawPoint(centroX+x,centroY+y);
+    }//cierre del while y>0
 
-        i+=2;
+}//cierre de midPointEllipse
 
-        painter.drawPoint(centroX-x,centroY+y);
-        painter.drawPoint(centroX+x,centroY-y);
-        painter.drawPoint(centroX-x,centroY-y);
-        /*ellipsePoints*/
+void dibujarCono(QPainter & painter) {
 
-    }
-    /*midPointEllipse*/
+    double centroX = 0.0;
+    double centroY = 0.0;
+
+    int a = 50;
+    int b = 20;
+
+    midPointEllipse(a, b, centroX, centroY, painter);
 
     int incX = 50;
     int incY = 100;
@@ -97,7 +99,8 @@ void dibujarCono(QPainter & painter){
 
     painter.drawLine(x0,y0,x2,y2);
     painter.drawLine(x2,y2,x1,y1);
-}
+
+}//cierre de dibujarCono
 
 void Cono::paintEvent(QPaintEvent *e)
 {
@@ -108,79 +111,74 @@ void Cono::paintEvent(QPaintEvent *e)
     painter.setPen(pointPen);
 
     if (dibuja) {
-        for(int i=0; i<transforms.size(); ++i) {
-            painter.setTransform(transforms[i],true);
+
+        for(int i=0; i<vecTrans.size(); ++i) {
+            painter.setTransform(vecTrans[i],true);
             dibujarCono(painter);
 
-        }
-    }
+        }//cierre del for
 
-}
+    }//cierre del if que checa dibuja
+
+}//cierre de paintEvent
 
 void Cono::on_pushButton_clicked()
 {
-    dibuja=!dibuja;
-    transforms.clear();
-    QTransform center;
-    center.translate(xCentro,yCentro);
-    transforms.push_back(center);
+    trans.dibujar(dibuja,vecTrans,xCentro,yCentro);
+
     update();
-}
+
+}//cierre del boton dibujar
 
 void Cono::on_pushButton_2_clicked()
 {
     QString xStr = ui->boxXinicio->toPlainText();
     QString yStr = ui->boxYinicio->toPlainText();
 
-    if(!xStr.isEmpty() && !yStr.isEmpty())
-    {
-        int x = xStr.toDouble();
-        int y = yStr.toDouble();
-        QTransform translate;
-        translate.translate(x, y);
-        transforms.push_back(translate);
-    }
+    trans.trasladar(xStr, yStr, vecTrans);
 
     update();
-}
+
+}//cierre del boton de trasladar
 
 void Cono::on_pushButton_3_clicked()
 {
-    QTransform rotate;
-    rotate.rotate(30);
-    transforms.push_back(rotate);
+    QString gradosStr = ui->boxGrados->toPlainText();
+
+    trans.rotar(gradosStr, vecTrans);
+
     update();
-}
+
+}//cierre del boton de rotar
 
 void Cono::on_pushButton_4_clicked()
 {
-    QTransform zoomOut;
-    zoomOut.scale(0.5,0.5);
-    transforms.push_back(zoomOut);
+    trans.zoomOut(vecTrans);
 
     update();
-}
+
+}//cierre del boton de zoom out
 
 void Cono::on_pushButton_5_clicked()
 {
-    QTransform zoomIn;
-    zoomIn.scale(2,2);
-    transforms.push_back(zoomIn);
+    trans.zoomIn(vecTrans);
+
     update();
-}
+
+}//cierre del boton de zoom in
 
 void Cono::on_pushButton_6_clicked()
 {
-    QTransform zoomIn;
-    zoomIn.scale(-1,1);
-    transforms.push_back(zoomIn);
+    trans.reflexHorizontal(vecTrans);
+
     update();
-}
+
+}//cierre del boton de reflexion horizontal
 
 void Cono::on_pushButton_7_clicked()
 {
-    QTransform zoomIn;
-    zoomIn.scale(1,-1);
-    transforms.push_back(zoomIn);
+    trans.reflexVertical(vecTrans);
+
     update();
-}
+
+}//cierre del boton de reflexion vertical

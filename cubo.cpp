@@ -12,7 +12,7 @@ Cubo::Cubo(QWidget *parent) :
     yCentro = 300.0;
     QTransform center;
     center.translate(xCentro,yCentro);
-    transforms.push_back(center);
+    vecTrans.push_back(center);
 }
 
 Cubo::~Cubo()
@@ -32,16 +32,16 @@ void dibujaCubo(QPainter &painter){
     int x4 = medida;
     int y4 = -medida;
 
-    int distProp = (x2-x1)/2;
+    int distancia = (x2-x1)/2;
 
-    int _x1 = x1+distProp;
-    int _y1 = y1-distProp;
-    int _x2 = x2+distProp;
-    int _y2 = y2-distProp;
-    int _x3 = x3+distProp;
-    int _y3 = y3-distProp;
-    int _x4 = x4+distProp;
-    int _y4 = y4-distProp;
+    int _x1 = x1 + distancia;
+    int _y1 = y1 - distancia;
+    int _x2 = x2 + distancia;
+    int _y2 = y2 - distancia;
+    int _x3 = x3 + distancia;
+    int _y3 = y3 - distancia;
+    int _x4 = x4 + distancia;
+    int _y4 = y4 - distancia;
 
     painter.drawLine(x1, y1, x2, y2);
     painter.drawLine(x1, y1, x3, y3);
@@ -55,7 +55,8 @@ void dibujaCubo(QPainter &painter){
     painter.drawLine(x2, y2, _x2, _y2);
     painter.drawLine(x3, y3, _x3, _y3);
     painter.drawLine(x4, y4, _x4, _y4);
-}
+
+}//Cierre de dibujaCubo
 
 void Cubo::paintEvent(QPaintEvent *e)
 {
@@ -64,83 +65,75 @@ void Cubo::paintEvent(QPaintEvent *e)
     pointPen.setWidth(2);
     painter.setPen(pointPen);
 
-    if (dibuja)
-    {
-        for(int i=0; i<transforms.size(); ++i)
-        {
-            painter.setTransform(transforms[i],true);
+    if (dibuja) {
+
+        for(int i=0; i<vecTrans.size(); ++i) {
+            painter.setTransform(vecTrans[i],true);
             dibujaCubo(painter);
 
-        }
-    }
+        }//Cierre del for
 
-}
+    }//Cierre del if que checa dibuja
+
+}//cierre de paintEvent
 
 void Cubo::on_pushButton_clicked()
 {
-    dibuja=!dibuja;
-    transforms.clear();
-    QTransform center;
-    center.translate(xCentro,yCentro);
-    transforms.push_back(center);
+    trans.dibujar(dibuja,vecTrans,xCentro,yCentro);
+
     update();
-}
+
+}//cierre del boton dibujar
 
 void Cubo::on_pushButton_2_clicked()
 {
-
     QString xStr = ui->boxXinicio->toPlainText();
     QString yStr = ui->boxYinicio->toPlainText();
 
-
-    if (!xStr.isEmpty() && !yStr.isEmpty()) {
-        double x = xStr.toDouble();
-        double y = yStr.toDouble();
-        QTransform translate;
-        translate.translate(x, y);
-        transforms.push_back(translate);
-    }
+    trans.trasladar(xStr, yStr, vecTrans);
 
     update();
 
-}
+}//cierre del boton de trasladar
 
 void Cubo::on_pushButton_3_clicked()
 {
-    QTransform rotate;
-    rotate.rotate(30);
-    transforms.push_back(rotate);
-    update();
-}
+    QString gradosStr = ui->boxGrados->toPlainText();
 
-void Cubo::on_pushButton_5_clicked()
-{
-    QTransform zoomIn;
-    zoomIn.scale(2,2);
-    transforms.push_back(zoomIn);
+    trans.rotar(gradosStr, vecTrans);
+
     update();
-}
+
+}//cierre del boton de rotar
 
 void Cubo::on_pushButton_4_clicked()
 {
-    QTransform zoomOut;
-    zoomOut.scale(0.5,0.5);
-    transforms.push_back(zoomOut);
+    trans.zoomOut(vecTrans);
+
     update();
-}
+
+}//cierre del boton de zoom out
+
+void Cubo::on_pushButton_5_clicked()
+{
+    trans.zoomIn(vecTrans);
+
+    update();
+
+}//cierre del boton de zoom in
 
 void Cubo::on_pushButton_6_clicked()
 {
-    QTransform zoomIn;
-    zoomIn.scale(1,-1);
-    transforms.push_back(zoomIn);
+    trans.reflexHorizontal(vecTrans);
+
     update();
-}
+
+}//cierre del boton de reflexion horizontal
 
 void Cubo::on_pushButton_7_clicked()
 {
-    QTransform zoomIn;
-    zoomIn.scale(-1,1);
-    transforms.push_back(zoomIn);
+    trans.reflexVertical(vecTrans);
+
     update();
-}
+
+}//cierre del boton de reflexion vertical

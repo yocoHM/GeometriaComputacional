@@ -18,10 +18,6 @@ void Dialog::on_pushButton_clicked()
     Poligonos poligonos;
     poligonos.setModal(true);
     poligonos.exec();
-
-    //permite multiples ventanas de poligonos
-    //poligonos = new Poligonos(this);
-    //poligonos->show();
 }
 
 void Dialog::on_pushButton_2_clicked()

@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QtGui>
 #include <QtCore>
+#include "transformaciones.h"
 
 namespace Ui {
 class PrismaRec;
@@ -37,7 +38,9 @@ private:
     double xCentro;
     double yCentro;
 
-    QVector<QTransform> transforms;
+    QVector<QTransform> vecTrans;
+    Transformaciones trans;
+
 };
 
 #endif // PRISMAREC_H

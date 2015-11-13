@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     cubo.cpp \
     prismarec.cpp \
     prismatri.cpp \
-    cono.cpp
+    cono.cpp \
+    transformaciones.cpp
 
 HEADERS  += dialog.h \
     poligonos.h \
@@ -27,7 +28,8 @@ HEADERS  += dialog.h \
     cubo.h \
     prismarec.h \
     prismatri.h \
-    cono.h
+    cono.h \
+    transformaciones.h
 
 FORMS    += dialog.ui \
     poligonos.ui \

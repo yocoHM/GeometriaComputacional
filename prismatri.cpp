@@ -12,7 +12,7 @@ PrismaTri::PrismaTri(QWidget *parent) :
     yCentro = 300.0;
     QTransform center;
     center.translate(xCentro,yCentro);
-    transforms.push_back(center);
+    vecTrans.push_back(center);
 }
 
 PrismaTri::~PrismaTri()
@@ -21,18 +21,23 @@ PrismaTri::~PrismaTri()
 }
 
 void dibujarPrismaTri(QPainter & painter){
+
+    int medida = 25;
+    int medida2 = medida*2;
+    int medida3 = 70;
+
     int x1 = 0;
-    int y1 = -50;
-    int x2 = -25;
-    int y2 = -70;
-    int x3 = 25;
-    int y3 = -70;
+    int y1 = -medida2;
+    int x2 = -medida;
+    int y2 = -medida3;
+    int x3 = medida;
+    int y3 = -medida3;
     int _x1 = 0;
-    int _y1 = -50+50;
-    int _x2 = -25;
-    int _y2 = -70+50;
-    int _x3 = 25;
-    int _y3 = -70+50;
+    int _y1 = -medida2+medida2;
+    int _x2 = -medida;
+    int _y2 = -medida3+medida2;
+    int _x3 = medida;
+    int _y3 = -medida3+medida2;
 
     painter.drawLine(x1,y1,x2,y2);
     painter.drawLine(x1,y1,x3,y3);
@@ -43,7 +48,8 @@ void dibujarPrismaTri(QPainter & painter){
     painter.drawLine(x1,y1,_x1,_y1);
     painter.drawLine(x2,y2,_x2,_y2);
     painter.drawLine(_x3,_y3,x3,y3);
-}
+
+}//cierre de dibujarPrismaTri
 
 void PrismaTri::paintEvent(QPaintEvent *e)
 {
@@ -53,81 +59,74 @@ void PrismaTri::paintEvent(QPaintEvent *e)
     painter.setPen(pointPen);
 
 
-    if(dibuja)
-    {
-        for(int i=0; i<transforms.size(); ++i)
-        {
-            painter.setTransform(transforms[i],true);
-            dibujarPrismaTri(painter);
+    if(dibuja) {
 
-        }
-    }
-}
+        for(int i=0; i<vecTrans.size(); ++i) {
+            painter.setTransform(vecTrans[i],true);
+            dibujarPrismaTri(painter);
+        }//cierre del for
+
+    }//cierre del if que checa dibuja
+
+}//cierre de paintEvent
 
 void PrismaTri::on_pushButton_clicked()
 {
-    dibuja=!dibuja;
-    transforms.clear();
-    QTransform center;
-    center.translate(xCentro,yCentro);
-    transforms.push_back(center);
+    trans.dibujar(dibuja,vecTrans,xCentro,yCentro);
+
     update();
-}
+
+}//cierre del boton dibujar
 
 void PrismaTri::on_pushButton_2_clicked()
 {
     QString xStr = ui->boxXinicio->toPlainText();
     QString yStr = ui->boxYinicio->toPlainText();
 
-    if (!xStr.isEmpty() && !yStr.isEmpty()) {
-        double x = xStr.toDouble();
-        double y = yStr.toDouble();
-        QTransform translate;
-        translate.translate(x, y);
-        transforms.push_back(translate);
-
-    }
+    trans.trasladar(xStr, yStr, vecTrans);
 
     update();
-}
+
+}//cierre del boton de trasladar
 
 void PrismaTri::on_pushButton_3_clicked()
 {
-    QTransform rotate;
-    rotate.rotate(30);
-    transforms.push_back(rotate);
+    QString gradosStr = ui->boxGrados->toPlainText();
+
+    trans.rotar(gradosStr, vecTrans);
+
     update();
-}
+
+}//cierre del boton de rotar
 
 void PrismaTri::on_pushButton_4_clicked()
 {
-    QTransform zoomOut;
-    zoomOut.scale(0.5,0.5);
-    transforms.push_back(zoomOut);
+    trans.zoomOut(vecTrans);
 
     update();
-}
+
+}//cierre del boton de zoom out
 
 void PrismaTri::on_pushButton_5_clicked()
 {
-    QTransform zoomIn;
-    zoomIn.scale(2,2);
-    transforms.push_back(zoomIn);
+    trans.zoomIn(vecTrans);
+
     update();
-}
+
+}//cierre del boton de zoom in
 
 void PrismaTri::on_pushButton_6_clicked()
 {
-    QTransform zoomIn;
-    zoomIn.scale(-1,1);
-    transforms.push_back(zoomIn);
+    trans.reflexHorizontal(vecTrans);
+
     update();
-}
+
+}//cierre del boton de reflexion horizontal
 
 void PrismaTri::on_pushButton_7_clicked()
 {
-    QTransform zoomIn;
-    zoomIn.scale(1,-1);
-    transforms.push_back(zoomIn);
+    trans.reflexVertical(vecTrans);
+
     update();
-}
+
+}//cierre del boton de reflexion vertical

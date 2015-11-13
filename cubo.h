@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QtGui>
 #include <QtCore>
+#include "transformaciones.h"
 
 namespace Ui {
 class Cubo;
@@ -36,7 +37,8 @@ private:
     double xCentro;
     double yCentro;
 
-    QVector<QTransform> transforms;
+    QVector<QTransform> vecTrans;
+    Transformaciones trans;
 };
 
 #endif // CUBO_H

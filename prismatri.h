@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QtGui>
 #include <QtCore>
+#include "transformaciones.h"
 
 namespace Ui {
 class PrismaTri;
@@ -22,7 +23,6 @@ protected:
 
 private slots:
     void on_pushButton_clicked();
-
     void on_pushButton_2_clicked();
     void on_pushButton_3_clicked();
     void on_pushButton_4_clicked();
@@ -37,7 +37,8 @@ private:
     double xCentro;
     double yCentro;
 
-    QVector<QTransform> transforms;
+    QVector<QTransform> vecTrans;
+    Transformaciones trans;
 };
 
 #endif // PRISMATRI_H

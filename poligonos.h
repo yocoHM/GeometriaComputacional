@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QtGui>
 #include <QtCore>
+#include "transformaciones.h"
 
 namespace Ui {
 class Poligonos;
@@ -24,7 +25,8 @@ private:
     double xCentro;
     double yCentro;
 
-    QVector<QTransform> transforms;
+    QVector<QTransform> vecTrans;
+    Transformaciones trans;
 
 protected:
     void paintEvent(QPaintEvent *e);
