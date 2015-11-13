@@ -1,5 +1,5 @@
 # Instrucciones de uso:
-Para poder utilizar este repositorio se tiene que bajar toda la carpeta con los coóigos como zip, descomprimirla y abrir el
+Para poder utilizar este repositorio se tiene que bajar toda la carpeta con los códigos como zip, descomprimirla y abrir el
 archivo llamado "GeometriaComputacional.app" haciendo doble click en el.
 A continuación aparecerá una ventana nueva donde se podrá escoger la figura que se quiera dibujar y transformar, tan solo se tiene
 que hacer click en la figura deseada. Después de esto se abrirá una nueva ventana con opciones para dibujar y transformar la figura
