@@ -38,3 +38,5 @@ FORMS    += dialog.ui \
     prismarec.ui \
     prismatri.ui \
     cono.ui
+
+CONFIG-=app_bundle
